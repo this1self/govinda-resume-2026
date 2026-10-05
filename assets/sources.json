@@ -1,0 +1,17 @@
+{
+  "linkedin.png": {
+    "page": "https://brand.linkedin.com/downloads",
+    "download": "https://content.linkedin.com/content/dam/me/business/en-us/amp/xbu/linkedin-revised-brand-guidelines/logos/in-logo.zip",
+    "archive_member": "in-logo/InBug-Black.png"
+  },
+  "github.png": {
+    "page": "https://brand.github.com/foundations/logo",
+    "download": "https://brand.github.com/GitHub_Logos.zip",
+    "archive_member": "GitHub Logos/PNG/GitHub_Invertocat_Black.png"
+  },
+  "soundcloud.png": {
+    "page": "https://community.soundcloud.com/company/media-kit",
+    "download": "https://cdn.prod.website-files.com/62a0a0168756b795debc65bc/69ef2abbddd3c1d881b88ae0_Favicon%20Colors%20black%20(transparent)%20-%20download.webp",
+    "conversion": "WebP to PNG with sips; dimensions and transparency preserved"
+  }
+}

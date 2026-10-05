@@ -1,0 +1,557 @@
+/* ========================================================================== 
+   RESUME STYLE GUIDE / EDITING MAP
+   1. Design tokens      — colors, typography, dimensions, and reusable spacing
+   2. Base elements     — predictable defaults, links, text helpers
+   3. Page + header     — Letter sheets, name, subtitle, accent rule
+   4. Layout + sections — columns and shared content patterns
+   5. Contact + entries — icons, experience, achievements, future profile links
+   6. Screen preview    — fixed paper geometry at every viewport width
+   7. Printing          — two Letter sheets with explicit page breaks
+
+   Property order within each rule:
+   layout → dimensions → spacing → typography → color/surface → interaction.
+   Logical properties (inline/block) keep spacing independent of text direction.
+   ========================================================================== */
+
+/* 1. DESIGN TOKENS ----------------------------------------------------------
+   Start here. Changing --color-accent updates the surname, rule, and icons.
+   Body text is slightly darker than the screenshot for readable printing.
+   The font families are visual approximations, not confirmed identifications. */
+:root {
+
+    /* PAGE SIZE — comment out Letter and uncomment A4 to switch.
+       Also switch the matching size in @page below. Typography and spacing stay unchanged.
+       Pages grow visibly if overfilled; rebalance whole sections before printing.
+       Sidebar width + column gap determine main-column width.
+       If changing paper size, also update the literal size in @page below;
+       CSS custom properties are not reliably supported in @page descriptors. */
+    /* US Letter */
+    --page-width: 8.5in;
+    --page-height: 11in;
+
+    /* A4
+    --page-width: 210mm;
+    --page-height: 297mm;
+    */
+    /* PAGE MARGIN: one value controls the empty border on ALL FOUR sides.
+       Header and body add no further horizontal page padding. */
+    --page-inset: 0.5in;
+
+
+    /* Palette: keep color decisions together. */
+    --color-accent: #8A664A; /* #96b8ba; */
+    --color-heading: #454545;
+    --color-company: #333333; /* Company names; roles retain their inherited color. */
+    --color-body: #606060;
+    --color-muted: #757575;
+    --color-paper: #ffffff;
+    --color-canvas: #ececec;
+    /* TEMPORARY HEADER GUIDE: set to transparent to remove the fill. */
+    --color-header-background: transparent;
+    /* SCREEN-ONLY MARGIN GUIDE: use none to hide the content-area outline. */
+    --content-guide: 1px dashed transparent;
+    /* TEMPORARY COLUMN GUIDES: set both to transparent to remove the fills.
+       Backgrounds show the column boundaries without changing widths or spacing. */
+    --color-sidebar-background: transparent;
+    --color-main-background: transparent;
+    --page-shadow: 0 1px 8px rgb(0 0 0 / 18%);
+
+    /* Font families and weights. Update the Google Fonts link if changing fonts. */
+    --font-heading: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+    --weight-light: 300;
+    --weight-regular: 400;
+    --weight-semibold: 600;
+
+    /* Type scale: pt keeps screen and paper sizing consistent. */
+    /* NAME SIZE — edit this value to resize "Govinda Ram Pingali".
+       Lower values make the name smaller on desktop and paper.
+       The same size is used on screen and paper. */
+    --size-name: 18pt;
+    --size-subtitle: 10pt;
+    --size-date: 8pt;
+    --size-section: 11pt;
+    --size-discipline: 10pt;
+    --size-body: 10.5pt;
+    --size-sidebar: 10pt;
+    --line-height-body: 1.45;
+    --line-height-sidebar: 1.4;
+    --line-height-heading: 1.2;
+    
+    /* NAME LETTER SPACING: controls how tightly the full name fits on one line
+       within its equal-width header column. Recheck fit if increasing it. */
+    --tracking-name: 0.05em;
+    
+    /* SUBTITLE LETTER SPACING: tighter spacing fits all three disciplines
+       on one line in the right header column. Recheck fit when changing font size. */
+    --tracking-subtitle: 0.1em;
+    --tracking-section: 0.1em;
+
+    
+    /* Header height is measured INSIDE the page margins. */
+    --header-min-height: 0.5in;
+    /* HEADER SPACING: gap between the equal columns, then subtitle/date gap.
+       Header height remains a minimum; wrapped text and padding can exceed it. */
+    --header-column-gap: 18pt;
+    --header-details-gap: 0pt;
+    /* RIGHT HEADER VERTICAL OFFSET: align the subtitle's top with the name's top.
+       Both columns are centered initially, so offset by half their height difference.
+       This preserves the name's vertical centering. Use a length to fine-tune. */
+    /* --header-details-offset: calc(((var(--size-subtitle) + var(--size-date)) * var(--line-height-body) + var(--header-details-gap) - var(--size-name) * var(--line-height-heading)) / 2); */
+    --header-details-offset: 4pt;
+    --body-inset-top: 0.2in; /* Internal gap from the divider to the two columns. */
+    --sidebar-width: 1.92in;
+    --column-gap: 0.3in;
+    --screen-page-margin: 12px;
+    --accent-rule-width: 1px;
+
+    /* Shared rhythm: section > entry > paragraph/list spacing. */
+    --space-section: 16pt;
+    --space-section-heading: 9pt;
+    --space-discipline: 20pt;
+    /* Shared gap: discipline heading → first entry, and between entries. */
+    --space-entry: 12pt;
+    --space-detail: 10pt;
+    --space-paragraph: 4pt;
+    --space-list: 0pt; /* Extra gap between bullets; line spacing stays unchanged. */
+    --space-contact: 4pt; /* Gap between phone and email rows. */
+    --size-contact-icon: 12pt;
+}
+
+/* 2. BASE ELEMENTS --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: light;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--size-body);
+    font-weight: var(--weight-regular);
+    line-height: var(--line-height-body);
+    color: var(--color-body);
+    background: var(--color-canvas);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul {
+    margin: 0;
+}
+
+/* Text helpers can be reused anywhere without introducing another color. */
+.accent-text {
+    color: var(--color-accent);
+}
+
+.muted-text,
+.entry-meta {
+    color: var(--color-muted);
+}
+
+.resume-link {
+    overflow-wrap: anywhere;
+    color: inherit;
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+}
+
+.resume-link:hover {
+    text-decoration: underline;
+}
+
+.resume-link:focus-visible {
+    outline: 2px solid var(--color-heading);
+    outline-offset: 4px;
+}
+
+/* 3. PAGE + HEADER ---------------------------------------------------------
+   Each sheet owns its margins and footer. Minimum height keeps short pages
+   paper-sized; content stays visible if later edits overfill a sheet.
+   Keep each page within the selected height for a two-page PDF. */
+.resume-page {
+    display: flex;
+    flex-direction: column;
+    inline-size: var(--page-width);
+    min-block-size: var(--page-height);
+    margin: var(--screen-page-margin) auto;
+    padding: var(--page-inset);
+    background: var(--color-paper);
+    box-shadow: var(--page-shadow);
+}
+
+.resume-content {
+    inline-size: 100%;
+}
+
+.resume-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12pt;
+    margin-block-start: auto;
+    padding-block-start: 12pt;
+    font-size: 8pt;
+    color: var(--color-muted);
+}
+
+.resume-header-continuation .resume-name {
+    font-size: 12pt;
+}
+
+.continuation-contact {
+    justify-self: end;
+    font-size: 9pt;
+}
+
+/* HEADER COLUMNS: repeat(2, ...) gives the name and details equal widths.
+   Font sizes remain controlled by --size-name / --size-subtitle / --size-date.
+   Name and subtitle each stay on one line; the details offset aligns their tops. */
+.resume-header {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: var(--header-column-gap);
+    min-block-size: var(--header-min-height);
+    /* Equal top/bottom padding centers the name within the header.
+       Total padding stays 8pt, preserving the header height and document fit. */
+    padding: 4pt 0;
+    /* The header already spans the content width, so its border aligns naturally. */
+    border-block-end: var(--accent-rule-width) solid var(--color-accent);
+    text-align: start;
+    background-color: var(--color-header-background);
+}
+
+/* RIGHT COLUMN: subtitle above date; align both with the right content edge.
+   The relative offset moves only this block, preserving the name/header position. */
+.resume-header-details {
+    position: relative;
+    inset-block-start: var(--header-details-offset);
+    display: grid;
+    gap: var(--header-details-gap);
+    min-inline-size: 0;
+    text-align: end;
+}
+
+.resume-name {
+    max-inline-size: 100%;
+    font-family: var(--font-heading);
+    font-size: var(--size-name);
+    font-weight: var(--weight-light);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--tracking-name);
+    /* Keep the complete name together; size and letter spacing control fit. */
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: var(--color-heading);
+}
+
+.resume-subtitle {
+    font-size: var(--size-subtitle);
+    letter-spacing: var(--tracking-subtitle);
+    /* Keep the subtitle intact. If editing its text or size, check column fit. */
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: var(--color-heading);
+}
+
+.resume-date {
+    font-size: var(--size-date);
+    color: var(--color-muted);
+}
+
+/* 4. LAYOUT + REUSABLE SECTIONS --------------------------------------------
+   minmax(0, 1fr) allows long text to wrap inside the main column.
+   Both columns share .resume-section, .section-heading, and .item-heading. */
+.resume-body {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    gap: var(--column-gap);
+    padding-block-start: var(--body-inset-top);
+}
+
+.resume-sidebar,
+.resume-main {
+    min-inline-size: 0;
+    overflow-wrap: break-word;
+}
+
+/* Sidebar spacing applies to both pages. Edit this block to adjust
+   section, heading, detail, and bullet gaps independently of experience. */
+.resume-sidebar {
+    --space-section: 18pt;
+    --space-section-heading: 8pt;
+    --space-detail: 10pt;
+    --space-list: 2pt;
+
+    font-size: var(--size-sidebar);
+    line-height: var(--line-height-sidebar);
+    background-color: var(--color-sidebar-background);
+}
+
+.resume-main {
+    background-color: var(--color-main-background);
+}
+
+/* Page two has more entries; keep the expanded project descriptions on one sheet. */
+.resume-page + .resume-page .resume-main {
+    --space-entry: 8pt;
+    --space-discipline: 14pt;
+    line-height: 1.4;
+}
+
+.resume-section + .resume-section {
+    margin-block-start: var(--space-section);
+}
+
+.section-heading {
+    margin-block-end: var(--space-section-heading);
+    font-family: var(--font-heading);
+    font-size: var(--size-section);
+    font-weight: var(--weight-regular);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--tracking-section);
+    text-transform: uppercase;
+    color: var(--color-heading);
+}
+
+.item-heading {
+    font-size: inherit;
+    font-weight: var(--weight-semibold);
+    line-height: var(--line-height-heading);
+}
+
+/* Sibling selectors add space between entries without trailing empty space. */
+.detail-group + .detail-group {
+    margin-block-start: var(--space-detail);
+}
+
+.detail-group > .item-heading + * {
+    margin-block-start: 2pt;
+}
+
+.plain-list,
+.bulleted-list {
+    display: grid;
+    gap: var(--space-list);
+    padding: 0;
+}
+
+.plain-list {
+    list-style: none;
+}
+
+/* Reusable compact bullets; row spacing follows the same --space-list token. */
+.bulleted-list {
+    padding-inline-start: 14pt;
+    list-style: disc outside;
+}
+
+/* 5. CONTACT + EXPERIENCE + FUTURE LINKS ----------------------------------- */
+.contact-list {
+    display: grid;
+    gap: var(--space-contact);
+    font-style: normal;
+}
+
+.contact-item {
+    display: grid;
+    grid-template-columns: var(--size-contact-icon) minmax(0, 1fr);
+    align-items: center;
+    gap: 4pt; /* Horizontal space between the icon and contact text. */
+}
+
+.contact-icon {
+    display: block;
+    inline-size: var(--size-contact-icon);
+    block-size: var(--size-contact-icon);
+    color: var(--color-accent);
+}
+
+.contact-locations {
+    align-items: start;
+}
+
+.contact-locations .contact-icon {
+    margin-block-start: 1pt;
+}
+
+/* Envelope seams follow the paper color, even if you change the theme. */
+.icon-paper-line {
+    fill: none;
+    stroke: var(--color-paper);
+    stroke-width: 1.25;
+}
+
+/* DISCIPLINES: one .experience-discipline section per area of practice.
+   --space-discipline separates groups; --space-entry controls the gap after
+   each discipline heading and between its entries.
+   Keep headings uppercase, while role titles retain their original casing. */
+.experience-discipline + .experience-discipline {
+    margin-block-start: var(--space-discipline);
+}
+
+.discipline-heading {
+    margin-block-end: var(--space-entry);
+    font-family: var(--font-heading);
+    font-size: var(--size-discipline);
+    font-weight: var(--weight-regular);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--tracking-section);
+    text-transform: uppercase;
+    color: var(--color-heading);
+}
+
+/* Reuse one .experience-entry article per job. Paragraphs and achievements
+   have separate spacing controls so dense roles remain easy to tune. */
+.experience-entry + .experience-entry {
+    margin-block-start: var(--space-entry);
+}
+
+/* ENTRY HEADING: title first, then location/date on their own line.
+   This keeps date ranges together and makes roles easier to scan. */
+.entry-heading > .experience-title,
+.entry-heading > .entry-meta {
+    display: block;
+}
+
+.experience-title {
+    text-transform: none;
+}
+
+/* Wrap company, organization, or project names in <span class="company-name">.
+   Color changes independently; the title's existing font and weight are inherited. */
+.company-name {
+    color: var(--color-company);
+}
+
+.entry-meta {
+    margin-block-start: 2pt;
+    font-size: 9.5pt;
+    font-style: italic;
+}
+
+/* Match inline emphasis (e.g. Orgona) to the loaded semibold font weight. */
+.entry-description strong {
+    font-weight: var(--weight-semibold);
+}
+
+.entry-description,
+.achievement-list {
+    margin-block-start: var(--space-paragraph);
+}
+
+.achievement-list {
+    padding-inline-start: 24pt;
+}
+
+.achievement-list > li + li {
+    margin-block-start: var(--space-list);
+}
+
+/* Separate long profile URLs without inserting blank HTML list rows. */
+.profile-links {
+    --space-list: 8pt;
+    padding-inline-start: 0;
+    list-style: none;
+}
+
+/* Local PNG logos stay available offline and print beside their profile URLs. */
+.profile-link {
+    display: grid;
+    grid-template-columns: 18pt minmax(0, 1fr);
+    align-items: start;
+    column-gap: 4pt;
+}
+
+.profile-logo {
+    display: block;
+    inline-size: 13pt;
+    block-size: 13pt;
+    margin-block-start: 3pt;
+    object-fit: contain;
+    justify-self: center;
+}
+
+.profile-link span {
+    overflow-wrap: normal;
+}
+
+.profile-logo-soundcloud {
+    inline-size: 18pt;
+    block-size: 18pt;
+    margin-block-start: 1pt;
+}
+
+/* Keep a role or sidebar detail together if later edits trigger pagination. */
+.experience-entry,
+.detail-group,
+.contact-list,
+.profile-links {
+    break-inside: avoid;
+}
+
+.section-heading,
+.discipline-heading,
+.item-heading,
+.entry-heading {
+    break-after: avoid;
+}
+
+p,
+li {
+    orphans: 3;
+    widows: 3;
+}
+
+/* 6. SCREEN PREVIEW --------------------------------------------------------
+   Keep paper dimensions, columns, and font sizes fixed on narrow screens too.
+   Use browser zoom or horizontal scrolling to inspect the sheet. Reflow would
+   change which content fits and make this layout proof differ from print. */
+@media screen {
+    .resume-content {
+        /* Inset outline marks the shared content boundary without consuming space. */
+        outline: var(--content-guide);
+        outline-offset: -1px;
+    }
+}
+
+/* 7. PRINT ----------------------------------------------------------------
+   Browser print dialog: match the CSS paper size, scale 100%, headers/footers off.
+   For exact font matching, wait for Google Fonts to finish loading first.
+   @page has zero margins because .resume-page already supplies all four margins.
+   The content guide is screen-only. Each .resume-page starts a separate sheet.
+   Leave browser headers and footers off; the document supplies page numbers. */
+@page {
+    /* Keep this selection matched to the dimensions in :root above. */
+    size: 8.5in 11in; /* US Letter */
+    /* size: 210mm 297mm; */ /* A4 */
+    margin: 0;
+}
+
+@media print {
+    body {
+        background: var(--color-paper);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .resume-page + .resume-page {
+        break-before: page;
+    }
+
+    .resume-page {
+        inline-size: var(--page-width);
+        margin: 0;
+        box-shadow: none;
+    }
+
+}
