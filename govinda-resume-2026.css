@@ -81,8 +81,8 @@
     /* Paper edge to resume content: page margins. */
     --document_page-content-inset: 0.5in;
     
-    /* Between the left sidebar and Work Experience column. */
-    --document_columns-gap: 0.2in;
+    /* Between the Aux Column and Main Column. */
+    --document_columns-gap: 0.22in;
     
     /* Shared gap across BOTH columns and ALL pages:
        header to columns; Contact to Skills; Education to Courses to Links;
@@ -154,15 +154,13 @@
     --aux-column_link-outline-offset: 4px;
 
     /* RULER DIVIDER — independent HTML switch: data-ruler-divider="true".
-       Shared stroke thickness; vertical dash size/gap; horizontal tick length. */
+       Shared stroke thickness and dash pattern; full-width heading rules. */
     --ruler-divider-color: #8A664A;
     --ruler-divider-thickness: 1px;
     /* Ruler and tick origins: positive moves right; negative moves left. */
     --ruler-divider-horizontal-offset: -3pt;
     --ruler-divider-dash-length: 1pt;
     --ruler-divider-dash-gap: 2pt;
-    --ruler-divider-main-tick-length: 8pt;
-    --ruler-divider-aux-tick-length: 8pt;
 
     /* PAGINATION — minimum paragraph/list-item lines on each side of a break */
     --document_minimum-lines-before-page-break: 3;
@@ -715,18 +713,11 @@ html[data-debug-layout="true"] :is(
 /* Actual SVG strokes avoid Firefox PDF artifacts from repeating gradients.
    Parameters live in section 1. SVGs are decorative and never affect layout.
    Add document_ruler-heading to a target heading and a document_ruler-tick
-   SVG inside it. Ticks align with the center of the entire heading box, including
-   wrapped headings. Main/Aux lengths remain independently configurable. */
+   SVG inside it, then wrap its text in document_ruler-heading-text.
+   Full-width rules sit behind the text, centered on its first line.
+   Geometry and mask clearance reuse the existing column and spacing controls. */
 .document_ruler {
     display: none;
-}
-
-html[data-ruler-divider="true"] .main-column {
-    --ruler-divider-tick-length: var(--ruler-divider-main-tick-length);
-}
-
-html[data-ruler-divider="true"] .aux-column {
-    --ruler-divider-tick-length: var(--ruler-divider-aux-tick-length);
 }
 
 html[data-ruler-divider="true"] .document_ruler {
@@ -758,24 +749,61 @@ html[data-ruler-divider="true"] .document_columns::after {
     transform: translateX(-50%);
 }
 
-/* Heading ticks: center on the complete text block, including wrapped lines.
-   Explicit opt-in class keeps target selection readable in the HTML. */
+/* Heading rules: 1lh is the heading's computed line height, so wrapped text
+   never moves the rule away from the first line. Absolute SVGs change no flow. */
 html[data-ruler-divider="true"] .document_ruler-heading {
     position: relative;
 }
 
 .document_ruler-tick {
-    inline-size: var(--ruler-divider-tick-length);
     block-size: var(--ruler-divider-thickness);
-    inset-block-start: calc(50% - var(--ruler-divider-thickness) / 2);
+    inset-block-start: calc(0.5lh - var(--ruler-divider-thickness) / 2);
 }
 
+/* Each rule reaches from the shifted spine to its column's outer content edge. */
 .aux-column .document_ruler-tick {
     inset-inline-end: calc(-1 * var(--document_columns-gap) / 2 - var(--ruler-divider-horizontal-offset));
-    /* Start each dash pattern at the spine, extending outward to the left. */
+    inline-size: calc(100% + var(--document_columns-gap) / 2 + var(--ruler-divider-horizontal-offset));
     transform: scaleX(-1);
 }
 
 .main-column .document_ruler-tick {
     inset-inline-start: calc(-1 * var(--document_columns-gap) / 2 + var(--ruler-divider-horizontal-offset));
+    inline-size: calc(100% + var(--document_columns-gap) / 2 - var(--ruler-divider-horizontal-offset));
+    /* End on a complete dash within the content margin, never a partial stroke.
+       The rounded portion is column-relative, independent of spine movement. */
+    inline-size: calc(
+        var(--document_columns-gap) / 2 - var(--ruler-divider-horizontal-offset)
+        + round(down,
+            100% - var(--ruler-divider-dash-length),
+            var(--ruler-divider-dash-length) + var(--ruler-divider-dash-gap)
+        ) + var(--ruler-divider-dash-length)
+    );
+}
+
+/* Anchor the pattern to the text column, not the moving spine. Otherwise a
+   shifted dash phase changes the apparent clearance beside the text mask. */
+.main-column .document_ruler-tick line {
+    stroke-dashoffset: calc(var(--ruler-divider-horizontal-offset) - var(--document_columns-gap) / 2);
+}
+
+/* Inline masks preserve the original text wrapping and clickable links.
+   Clone the paper background on every wrapped line. A paper-colored shadow
+   supplies clearance after the text without changing its width or layout. */
+html[data-ruler-divider="true"] .document_ruler-heading-text {
+    position: relative;
+    z-index: 3;
+    background-color: var(--document_color-paper);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+html[data-ruler-divider="true"] .aux-column .document_ruler-heading-text {
+    box-shadow: var(--aux-column_detail-heading-content-margin-top) 0 0 var(--document_color-paper);
+}
+
+html[data-ruler-divider="true"] .main-column .document_ruler-heading-text {
+    box-shadow:
+        calc(-1 * var(--main-column_description-and-list-margin-top)) 0 0 var(--document_color-paper),
+        var(--main-column_description-and-list-margin-top) 0 0 var(--document_color-paper);
 }
