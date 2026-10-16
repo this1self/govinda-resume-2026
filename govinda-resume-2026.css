@@ -157,10 +157,12 @@
        Shared stroke thickness; vertical dash size/gap; horizontal tick length. */
     --ruler-divider-color: #8A664A;
     --ruler-divider-thickness: 1px;
-    --ruler-divider-dash-length: 6pt;
-    --ruler-divider-dash-gap: 4pt;
-    --ruler-divider-main-tick-length: 400pt;
-    --ruler-divider-aux-tick-length: 150pt;
+    /* Ruler and tick origins: positive moves right; negative moves left. */
+    --ruler-divider-horizontal-offset: -3pt;
+    --ruler-divider-dash-length: 1pt;
+    --ruler-divider-dash-gap: 2pt;
+    --ruler-divider-main-tick-length: 8pt;
+    --ruler-divider-aux-tick-length: 8pt;
 
     /* PAGINATION — minimum paragraph/list-item lines on each side of a break */
     --document_minimum-lines-before-page-break: 3;
@@ -712,10 +714,9 @@ html[data-debug-layout="true"] :is(
 /* 7. RULER DIVIDER --------------------------------------------------------- */
 /* Actual SVG strokes avoid Firefox PDF artifacts from repeating gradients.
    Parameters live in section 1. SVGs are decorative and never affect layout.
-   New entry: put document_ruler-tick inside its heading.
-   Grouped section: document_ruler-group on section, group-start SVG inside its
-   heading, group-end SVG at the end of the section. All coordinates track the
-   shared section gap; no content-specific pixel offsets are needed. */
+   Add document_ruler-heading to a target heading and a document_ruler-tick
+   SVG inside it. Ticks align with the center of the entire heading box, including
+   wrapped headings. Main/Aux lengths remain independently configurable. */
 .document_ruler {
     display: none;
 }
@@ -751,46 +752,30 @@ html[data-ruler-divider="true"] .document_columns::after {
 
 .document_ruler-vertical {
     inset-block: 0;
-    inset-inline-start: calc(var(--aux-column_width) + var(--document_columns-gap) / 2);
+    inset-inline-start: calc(var(--aux-column_width) + var(--document_columns-gap) / 2 + var(--ruler-divider-horizontal-offset));
     inline-size: var(--ruler-divider-thickness);
     block-size: 100%;
     transform: translateX(-50%);
 }
 
-/* Individual entries: midpoint of the gap preceding each heading. */
-html[data-ruler-divider="true"] :is(
-    [aria-labelledby="aux-column_skills-heading"] .aux-column_item-heading,
-    .main-column_experience-title,
-    .document_ruler-group,
-    .document_ruler-group > .aux-column_section-heading
-) {
+/* Heading ticks: center on the complete text block, including wrapped lines.
+   Explicit opt-in class keeps target selection readable in the HTML. */
+html[data-ruler-divider="true"] .document_ruler-heading {
     position: relative;
 }
 
-.document_ruler-tick,
-.document_ruler-group-start,
-.document_ruler-group-end {
+.document_ruler-tick {
     inline-size: var(--ruler-divider-tick-length);
     block-size: var(--ruler-divider-thickness);
+    inset-block-start: calc(50% - var(--ruler-divider-thickness) / 2);
 }
 
-.document_ruler-tick {
-    inset-block-start: calc(-0.5 * var(--document_section-gap) - var(--ruler-divider-thickness) / 2);
-}
-
-.aux-column .document_ruler:not(.document_ruler-vertical) {
-    inset-inline-end: calc(-1 * var(--document_columns-gap) / 2);
+.aux-column .document_ruler-tick {
+    inset-inline-end: calc(-1 * var(--document_columns-gap) / 2 - var(--ruler-divider-horizontal-offset));
     /* Start each dash pattern at the spine, extending outward to the left. */
     transform: scaleX(-1);
 }
 
 .main-column .document_ruler-tick {
-    inset-inline-start: calc(-1 * var(--document_columns-gap) / 2);
-}
-
-/* Groups: start below the section heading; end after the final content.
-   Outer section spacing, including doubled gaps, stays independent. */
-.document_ruler-group-start,
-.document_ruler-group-end {
-    inset-block-end: calc(-0.5 * var(--document_section-gap) - var(--ruler-divider-thickness) / 2);
+    inset-inline-start: calc(-1 * var(--document_columns-gap) / 2 + var(--ruler-divider-horizontal-offset));
 }
