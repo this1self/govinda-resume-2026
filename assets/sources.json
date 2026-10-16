@@ -13,5 +13,9 @@
     "page": "https://community.soundcloud.com/company/media-kit",
     "download": "https://cdn.prod.website-files.com/62a0a0168756b795debc65bc/69ef2abbddd3c1d881b88ae0_Favicon%20Colors%20black%20(transparent)%20-%20download.webp",
     "conversion": "WebP to PNG with sips; dimensions and transparency preserved"
+  },
+  "personal-site.png": {
+    "source": "User-provided govind678.github.io/favicon.ico",
+    "conversion": "Largest ICO image (256 x 256) to PNG; transparency preserved"
   }
 }

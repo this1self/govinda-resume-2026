@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Debug Layout: set data-debug-layout to "true" to reveal layout boxes.
+     Set it to "false" for the final resume, including PDF exports. -->
+<!-- Ruler Divider: set data-ruler-divider to "true" to show the central dashed
+     ruler and heading ticks, independently of debug layout, on screen and print.
+     Set to "false" before the final PDF export. Parameters are in CSS section 7. -->
+<html lang="en" data-debug-layout="false" data-ruler-divider="true">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Govinda Ram Pingali - Resume - September 2026</title>
+    <title>Govinda Ram Pingali - Resume - 2026-10-14</title>
 
     <!-- FONT PAIRING: Montserrat for headings; Open Sans for supporting text.
          These approximate the reference; its exact fonts are unconfirmed.
@@ -16,45 +21,46 @@
 </head>
 <body>
     <!-- EDITING MAP
-         Each .resume-page is one sheet; the second starts on a new printed page.
-         Page 1: contact, skills, education, and technology experience.
-         Page 2: courses, links, farm experience, and creative experience.
+         Each .document_page is one sheet; the second starts on a new printed page.
+         Page 1: contact, skills, and technology experience.
+         Page 2: education, courses, links, farm experience, and creative experience.
          Move complete sections between pages to rebalance longer content.
-         Font sizes, paper size, and spacing are controlled in the CSS.
-         No JavaScript or build step is required. -->
-    <main class="resume-document" aria-label="Govinda Ram Pingali resume">
+         CSS controls: font-size-* for text, *-box-size for icons,
+         and explicit margin/padding/gap names for spacing.
+         Decorative ruler SVGs use CSS parameters; no JavaScript or build step is required. -->
+    <main class="document_resume" aria-label="Govinda Ram Pingali resume">
         <!-- PAGE 1: move whole sections between pages when adding content. -->
-        <section class="resume-page" aria-label="Resume page 1">
-            <div class="resume-content">
-            <header class="resume-header">
-                <h1 class="resume-name">Govinda Ram <span class="accent-text">Pingali</span></h1>
-                <div class="resume-header-details">
-                    <p class="resume-subtitle">Engineer · Musician · Farm&nbsp;Manager</p>
-                    <time class="resume-date" datetime="2026-09-30">September 30, 2026</time>
+        <section class="document_page" aria-label="Resume page 1">
+            <div class="document_content">
+            <header class="document_header">
+                <h1 class="document_name">Govinda Ram <span class="document_accent-text">Pingali</span></h1>
+                <div class="document_header-details">
+                    <p class="document_subtitle">Engineer · Musician · Farm&nbsp;Manager</p>
                 </div>
             </header>
-                <div class="resume-body">
-                    <aside class="resume-sidebar" aria-label="Contact, skills, and education">
-                    <!-- CONTACT: icons inherit --color-accent through currentColor.
+                <div class="document_columns">
+                    <svg class="document_ruler document_ruler-vertical" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="50%" y1="0" x2="50%" y2="100%"/></svg>
+                    <aside class="aux-column" aria-label="Contact and skills">
+                    <!-- CONTACT: icons inherit --document_color-accent through currentColor.
                          Icons are decorative; the adjacent text names each link. -->
-                    <section class="resume-section" aria-labelledby="contact-heading">
-                        <h2 class="section-heading" id="contact-heading">Contact</h2>
-                        <address class="contact-list">
-                            <a class="contact-item resume-link" href="tel:+16786444488">
-                                <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <section class="document_section" aria-labelledby="aux-column_contact-heading">
+                        <h2 class="aux-column_section-heading" id="aux-column_contact-heading">Contact</h2>
+                        <address class="aux-column_contact-list">
+                            <a class="aux-column_contact-item aux-column_link" href="tel:+16786444488">
+                                <svg class="aux-column_contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                     <path fill="currentColor" d="M6.5 2.8 3.9 4.1c-1.2.6-1.5 2.1-1.1 3.4 2 6.3 7.2 11.5 13.5 13.5 1.3.4 2.8.1 3.4-1.1l1.3-2.6c.3-.6.1-1.3-.5-1.6l-4-2.1c-.5-.3-1.1-.2-1.5.2l-1.7 1.7a15.5 15.5 0 0 1-5.1-5.1l1.7-1.7c.4-.4.5-1 .2-1.5L8 3.3c-.3-.6-1-.8-1.5-.5Z"/>
                                 </svg>
                                 <span>+1 (678) 644-4488</span>
                             </a>
-                            <a class="contact-item resume-link" href="mailto:govinda@pgr.earth">
-                                <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <a class="aux-column_contact-item aux-column_link" href="mailto:govinda@pgr.earth">
+                                <svg class="aux-column_contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                     <path fill="currentColor" d="M2 5h20v14H2z"/>
-                                    <path class="icon-paper-line" d="m2 5 10 8L22 5M2 19l7-7m13 7-7-7"/>
+                                    <path class="aux-column_contact-icon-cutout" d="m2 5 10 8L22 5M2 19l7-7m13 7-7-7"/>
                                 </svg>
                                 <span>govinda@pgr.earth</span>
                             </a>
-                            <div class="contact-item contact-locations">
-                                <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <div class="aux-column_contact-item aux-column_contact-locations">
+                                <svg class="aux-column_contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                     <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
                                 </svg>
                                 <span>Oakland, CA, USA /<br>Kavanapura, KA, India</span>
@@ -62,87 +68,100 @@
                         </address>
                     </section>
 
-                    <!-- SKILLS: duplicate .detail-group to add a category.
-                         .bulleted-list adds bullets with the shared list spacing. -->
-                    <section class="resume-section" aria-labelledby="skills-heading">
-                        <h2 class="section-heading" id="skills-heading">Skills</h2>
-                        <div class="detail-group">
-                            <h3 class="item-heading">Disciplines</h3>
-                            <ul class="bulleted-list">
-                                <li>App Development</li>
+                    <!-- SKILLS: grouped by practice, followed by languages and tools.
+                         Each .aux-column_detail-group contains skills, with an optional heading.
+                         Use &amp; for ampersands in visible HTML text. -->
+                    <section class="document_section document_section-gap-double" aria-labelledby="aux-column_skills-heading">
+                        <h2 class="aux-column_section-heading" id="aux-column_skills-heading">Skills</h2>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>Ecology &amp; Production</h3>
+                            <ul class="aux-column_bulleted-list">
                                 <li>Permaculture Design</li>
-                                <li>Music Production</li>
-                                <li>Sound Design</li>
-                                <li>Electrical Engineering</li>
-                                <li>Video Editing</li>
-                                <li>Logistics & Organization</li>
+                                <li>Wastewater Systems</li>
+                                <li>Natural Building</li>
+                                <li>Event Production</li>
+                                <li>Logistics &amp; Organization</li>
                             </ul>
                         </div>
-                        <div class="detail-group">
-                            <h3 class="item-heading">Programming</h3>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>Engineering</h3>
+                            <ul class="aux-column_bulleted-list">
+                                <li>Software Development</li>
+                                <li>Audio Engineering</li>
+                                <li>Electronics Testing</li>
+                            </ul>
+                        </div>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>Music &amp; Media</h3>
+                            <ul class="aux-column_bulleted-list">
+                                <li>Music Production</li>
+                                <li>Sound Design</li>
+                                <li>Spatial Audio</li>
+                                <li>Modular Synthesis</li>
+                                <li>Photography</li>
+                                <li>Video Editing</li>
+                            </ul>
+                        </div>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>Programming</h3>
                             <p>C/C++, Objective-C, Swift, HTML/CSS, JavaScript, Python</p>
                         </div>
-                        <div class="detail-group">
-                            <h3 class="item-heading">Applications &amp; Equipment</h3>
-                            <p>Ableton Live, Adobe Photoshop, Illustrator, Audition, Premiere Pro, Max/MSP, Autodesk Fusion 360, Eurorack Modular Synthesizer, Scientific Instruments, Gardening Tools</p>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>Applications &amp; Equipment</h3>
+                            <p>Ableton Live, Max/MSP, Logic Pro, Adobe (Photoshop, Illustrator, Audition, Premiere Pro), Autodesk Fusion 360, <br>Eurorack,<br>Scientific Instruments,<br>Gardening Tools</p>
                         </div>
                     </section>
 
-                    <!-- EDUCATION: academic degrees, using the same reusable styles. -->
-                    <section class="resume-section" aria-labelledby="education-heading">
-                        <h2 class="section-heading" id="education-heading">Education</h2>
-                        <div class="detail-group">
-                            <h3 class="item-heading"><span class="company-name">Master of Science in Music Technology</span></h3>
-                            <p>Georgia Institute of Technology</p>
-                            <p class="muted-text">Atlanta, GA, USA<br>Aug 2012 – May 2014</p>
-                        </div>
-                        <div class="detail-group">
-                            <h3 class="item-heading"><span class="company-name">Bachelor of Engineering in Instrumentation Technology</span></h3>
-                            <p>R.V. College of Engineering</p>
-                            <p class="muted-text">Bangalore, KA, India<br>Sep 2008 – May 2012</p>
-                        </div>
-                    </section>
                     </aside>
-                    <div class="resume-main">
-                        <section class="resume-section" aria-labelledby="experience-heading">
-                            <h2 class="section-heading" id="experience-heading">Work Experience</h2>
-                            <div class="experience-list">
+                    <div class="main-column">
+                        <section class="document_section" aria-labelledby="main-column_experience-heading">
+                            <h2 class="main-column_section-heading" id="main-column_experience-heading">Work Experience</h2>
+                            <div class="main-column_experience-list">
                             <!-- DISCIPLINE 1: TECHNOLOGY & INDUSTRY -->
-                            <section class="experience-discipline" aria-labelledby="technology-heading">
-                                <h3 class="discipline-heading" id="technology-heading">Technology &amp; Industry</h3>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">Apple Inc.</span> | Siri Audio Software Engineer</h4>
-                                        <p class="entry-meta">Cupertino, CA · 2022–2025</p>
+                            <section class="document_section" aria-labelledby="main-column_technology-heading">
+                                <h3 class="main-column_discipline-heading" id="main-column_technology-heading">Technology &amp; Industry</h3>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">Apple Inc.</span> | Siri Audio Software Engineer</h4>
+                                        <p class="main-column_entry-location-dates">Cupertino, CA · 2022–2025</p>
                                     </header>
-                                    <p class="entry-description">Developed client-side audio software for Siri across Apple platforms.</p>
+                                    <ul class="main-column_achievement-list">
+                                        <li>Resolved “Hey Siri” activation issues across hardware and software releases, focused on iOS accessories - CarPlay and AirPods.</li>
+                                        <li>Validated and managed releases of a palettized wake-word model for the Always-On Processor across iPhone hardware builds, improving “Siri”-only detection accuracy within tight compute and memory limits.</li>
+                                        <li>Contributed to wake-word model switching on iOS, AirPods, HomePod, and macOS. Documented alternate wake-keyword API and messaging flows across audio, Bluetooth, and Siri software and hardware; created and coordinated cross-functional test suites with 20 test engineers.</li>
+                                    </ul>
                                 </article>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title">mmmooommm productions| Developer &amp; Co-Founder</h4>
-                                        <p class="entry-meta">Remote · 2020–2022</p>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>mmmooommm productions | Developer &amp; Co-Founder</h4>
+                                        <p class="main-column_entry-location-dates">Remote · 2020–2022</p>
                                     </header>
-                                    <p class="entry-description">Designed and developed <span class="company-name"><b>Orgona</b></span>, an immersive VoIP app that places conversations in shared acoustic spaces with distinct soundscapes shaped by voice reverberation, spatialization, and ambient sounds.
-                                        <br>Built the iOS interface and app logic in Objective-C/UIKit, and a CoreAudio/C++ audio engine. Developed a Flask/Python VoIP backend integrated with Twilio; launched a TestFlight beta for approximately 100 users.</p>
+                                    <p class="main-column_entry-description">Designed and developed <span class="main-column_company-name"><b>Orgona</b></span>, an immersive VoIP app that places conversations in shared acoustic spaces with distinct soundscapes shaped by voice reverberation, spatialization, and ambient sounds.</p>
+                                    <ul class="main-column_achievement-list">
+                                        <li>Built the iOS interface and app logic in Objective-C/UIKit, and a <span class="document_no-wrap">CoreAudio/C++</span> audio engine. Developed a Flask/Python VoIP backend integrated with Twilio; launched a TestFlight beta for about 100 users.</li>
+                                    </ul>
                                 </article>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">Apple Inc.</span> | Core Audio Software Engineer</h4>
-                                        <p class="entry-meta">Cupertino, CA · 2016–2019</p>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">Apple Inc.</span> | Core Audio Software Engineer</h4>
+                                        <p class="main-column_entry-location-dates">Cupertino, CA · 2016–2019</p>
                                     </header>
-                                    <p class="entry-description">Helped ship HomePod, AirPods (2nd generation), and other audio accessory products. Developed audio software spanning CoreAudio, device integration, DSP analysis, testing, and cross-platform production code.</p>
+                                    <ul class="main-column_achievement-list">
+                                        <li>Worked on the Core Audio software stack, helping ship the original HomePod and H1 chip-based AirPods.</li>
+                                        <li>Built DSP analysis tools used by Audio QA teams for automated testing.</li>
+                                    </ul>
                                 </article>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">SoundFocus</span> | iOS &amp; Audio Software Engineer</h4>
-                                        <p class="entry-meta">San Francisco, CA · 2014–2016</p>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">SoundFocus</span> | iOS &amp; Audio Software Engineer</h4>
+                                        <p class="main-column_entry-location-dates">San Francisco, CA · 2014–2016</p>
                                     </header>
-                                    <p class="entry-description">Developed software and validation tools for AMP, a Made for iPhone case for personalized audio.</p>
-                                    <ul class="achievement-list">
-                                        <li>Owned and developed the Objective-C companion iOS app for hardware setup; built macOS/iOS interfaces and testing tools for the C++ audio engine.</li>
-                                        <li>Implemented USB audio, I2S, and UART drivers, an STFT-based equalizer, single-band compression, and gain smoothing in C on STM32F4 (ARM Cortex-M4).</li>
+                                    <p class="main-column_entry-description">Developed software and validation tools for <i>AMP</i>, a Made for iPhone case with an embedded system for personalized audio.</p>
+                                    <ul class="main-column_achievement-list">
+                                        <li>Owned and developed the Objective-C iOS app for hardware setup; built macOS/iOS interfaces and testing tools for the C++ audio engine.</li>
+                                        <li>Implemented USB audio/I2S/UART drivers, STFT-equalizer, single-band compressor, and gain smoothing (in C) on STM32F4 (ARM Cortex-M4).</li>
                                         <li>Profiled audio algorithms on iOS and STM32F4; debugged PCB power circuitry and characterized amplifiers and micro-speakers.</li>
-                                        <li>Supported two Engineering Validation Test builds in China, designing PCB electrical tests, Audio Precision electro-acoustic tests and tolerances, and an iOS factory functional-testing app.</li>
+                                        <li>Supported two Engineering Validation Test builds in China, designing PCB electrical tests, Audio Precision electro-acoustic tests and tolerances, and the iOS factory functional-testing app.</li>
                                     </ul>
                                 </article>
                             </section>
@@ -151,107 +170,129 @@
                     </div>
                 </div>
             </div>
-            <footer class="resume-footer" aria-label="Page 1 of 2">
-                <span>Govinda Ram Pingali</span>
+            <footer class="document_footer" aria-label="Page 1 of 2">
                 <span>1 / 2</span>
             </footer>
         </section>
         <!-- PAGE 2: move whole sections between pages when adding content. -->
-        <section class="resume-page" aria-label="Resume page 2">
-            <div class="resume-content">
-            <header class="resume-header resume-header-continuation">
-                <p class="resume-name">Govinda Ram <span class="accent-text">Pingali</span></p>
-                <a class="resume-link continuation-contact" href="mailto:govinda@pgr.earth">govinda@pgr.earth</a>
-            </header>
-                <div class="resume-body">
-                    <aside class="resume-sidebar" aria-label="Courses and links">
-                    <!-- COURSES: one reusable .detail-group per training course.
-                         Locations/dates use .muted-text; titles use .item-heading. -->
-                    <section class="resume-section" aria-labelledby="courses-heading">
-                        <h2 class="section-heading" id="courses-heading">Courses</h2>
-                        <div class="detail-group">
-                            <h3 class="item-heading"><span class="company-name">Sound Journey Facilitation Training</span></h3>
-                            <p>SVARAM, Auroville, India</p>
-                            <p class="muted-text">January 2026</p>
+        <section class="document_page" aria-label="Resume page 2">
+            <div class="document_content">
+                <div class="document_columns">
+                    <svg class="document_ruler document_ruler-vertical" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="50%" y1="0" x2="50%" y2="100%"/></svg>
+                    <aside class="aux-column" aria-label="Education, courses, and links">
+                    <!-- EDUCATION: academic degrees, using the same reusable styles. -->
+                    <section class="document_section document_ruler-group" aria-labelledby="aux-column_education-heading">
+                        <h2 class="aux-column_section-heading" id="aux-column_education-heading">Education<svg class="document_ruler document_ruler-group-start" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg></h2>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><span class="aux-column_emphasized-text">Master of Science in Music Technology</span></h3>
+                            <p class="aux-column_institution-name">Georgia Institute of Technology</p>
+                            <p class="aux-column_muted-text">Atlanta, GA, USA<br>Aug 2012–May 2014</p>
                         </div>
-                        <div class="detail-group">
-                            <h3 class="item-heading"><span class="company-name">Singing Bowl Mastery: Techniques and Healing</span></h3>
-                            <p>iChakras, Los Gatos</p>
-                            <p class="muted-text">Spring 2024</p>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><span class="aux-column_emphasized-text">Bachelor of Engineering in Instrumentation Technology</span></h3>
+                            <p class="aux-column_institution-name">R.V. College of Engineering</p>
+                            <p class="aux-column_muted-text">Bangalore, KA, India<br>Sep 2008–May 2012</p>
                         </div>
-                        <div class="detail-group">
-                            <h3 class="item-heading"><span class="company-name">Permaculture Design Course</span></h3>
-                            <p>Santa Cruz Permaculture</p>
-                            <p class="muted-text">Apr - Sep 2023</p>
-                        </div>
+                    <svg class="document_ruler document_ruler-group-end" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>
                     </section>
 
-                    <!-- LINKS: one list item per profile, in the sidebar below Courses.
-                         Keep href and visible text identical so the full destination
-                         is available in print as well as clickable on screen. -->
-                    <section class="resume-section resume-links" aria-labelledby="links-heading">
-                        <h2 class="section-heading" id="links-heading">Links</h2>
-                        <ul class="profile-links bulleted-list">
-                            <li><a class="resume-link profile-link" href="https://www.linkedin.com/in/govinda-ram-pingali"><img class="profile-logo" src="assets/linkedin.png" alt=""><span>https://<wbr>linkedin.com/<wbr>in/<wbr>govinda-ram-pingali</span></a></li>
-                            <li><a class="resume-link profile-link" href="https://github.com/this1self"><img class="profile-logo" src="assets/github.png" alt=""><span>https://<wbr>github.com/<wbr>this1self</span></a></li>
-                            <li><a class="resume-link profile-link" href="https://soundcloud.com/this-ego"><img class="profile-logo profile-logo-soundcloud" src="assets/soundcloud.png" alt=""><span>https://<wbr>soundcloud.com/<wbr>this-ego</span></a></li>
+                    <!-- COURSES: one reusable .aux-column_detail-group per training course.
+                         Locations/dates use .aux-column_muted-text; titles use .aux-column_item-heading. -->
+                    <section class="document_section document_ruler-group document_section-gap-double" aria-labelledby="aux-column_courses-heading">
+                        <h2 class="aux-column_section-heading" id="aux-column_courses-heading">Courses<svg class="document_ruler document_ruler-group-start" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg></h2>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><span class="aux-column_emphasized-text">Sound Journey Facilitation Training</span></h3>
+                            <p class="aux-column_institution-name">SVARAM</p>
+                            <p class="aux-column_muted-text">Auroville, India</p>
+                            <p class="aux-column_muted-text">January 2026</p>
+                        </div>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><span class="aux-column_emphasized-text">Singing Bowl Mastery: Techniques and Healing</span></h3>
+                            <p class="aux-column_institution-name">iChakras</p>
+                            <p class="aux-column_muted-text">Los Altos, CA</p>
+                            <p class="aux-column_muted-text">Spring 2024</p>
+                        </div>
+                        <div class="aux-column_detail-group">
+                            <h3 class="aux-column_item-heading"><span class="aux-column_emphasized-text">Permaculture Design Course</span></h3>
+                            <p class="aux-column_institution-name">Santa Cruz Permaculture</p>
+                            <p class="aux-column_muted-text">Año Nuevo, CA</p>
+                            <p class="aux-column_muted-text">Apr–Sep 2023</p>
+                        </div>
+                    <svg class="document_ruler document_ruler-group-end" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>
+                    </section>
+
+                    <!-- LINKS: visible domains/handles omit https:// for compact printing.
+                         Full HTTPS destinations stay in href; keep handles unbroken.
+                         The personal domain omits www. so it fits on one line. -->
+                    <section class="document_section document_ruler-group document_section-gap-double aux-column_links" aria-labelledby="aux-column_links-heading">
+                        <h2 class="aux-column_section-heading" id="aux-column_links-heading">Links<svg class="document_ruler document_ruler-group-start" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg></h2>
+                        <ul class="aux-column_profile-links aux-column_bulleted-list">
+                            <li><a class="aux-column_link aux-column_profile-link" href="https://www.linkedin.com/in/govinda-ram-pingali" target="_blank" rel="noopener noreferrer"><img class="aux-column_profile-logo" src="assets/linkedin.png" alt=""><span>www.linkedin.com/<wbr>in/<wbr><span class="document_no-wrap">govinda-ram-pingali</span></span></a></li>
+                            <li><a class="aux-column_link aux-column_profile-link" href="https://github.com/this1self" target="_blank" rel="noopener noreferrer"><img class="aux-column_profile-logo" src="assets/github.png" alt=""><span>www.github.com/<wbr><span class="document_no-wrap">this1self</span></span></a></li>
+                            <li><a class="aux-column_link aux-column_profile-link" href="https://soundcloud.com/this-ego" target="_blank" rel="noopener noreferrer"><img class="aux-column_profile-logo aux-column_profile-logo-soundcloud" src="assets/soundcloud.png" alt=""><span>www.soundcloud.com/<wbr><span class="document_no-wrap">this-ego</span></span></a></li>
+                            <li><a class="aux-column_link aux-column_profile-link" href="https://govindarampingali.com" target="_blank" rel="noopener noreferrer"><img class="aux-column_profile-logo" src="assets/personal-site.png" alt=""><span class="document_no-wrap">govindarampingali.com</span></a></li>
                         </ul>
+                    <svg class="document_ruler document_ruler-group-end" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg>
                     </section>
                     </aside>
-                    <div class="resume-main">
-                        <section class="resume-section" aria-labelledby="experience-continued-heading">
-                            <h2 class="section-heading" id="experience-continued-heading">Work Experience · Continued</h2>
-                            <div class="experience-list">
+                    <div class="main-column">
+                        <section class="document_section" aria-labelledby="main-column_experience-continued-heading">
+                            <h2 class="main-column_section-heading" id="main-column_experience-continued-heading">Work Experience · Continued</h2>
+                            <div class="main-column_experience-list">
                             <!-- DISCIPLINE 2: PERMACULTURE & FARM PRACTICE -->
-                            <section class="experience-discipline" aria-labelledby="permaculture-heading">
-                                <h3 class="discipline-heading" id="permaculture-heading">Permaculture &amp; Farm Practice</h3>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">Palette o’ Green ’n Red</span> | Farm Manager</h4>
-                                        <p class="entry-meta">Ramanagara, Karnataka · 2019–2022</p>
+                            <section class="document_section" aria-labelledby="main-column_permaculture-heading">
+                                <h3 class="main-column_discipline-heading" id="main-column_permaculture-heading">Permaculture &amp; Farm Practice</h3>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">Palette o' Green 'n Red</span> <a class="aux-column_link" href="https://www.pgr.earth" target="_blank" rel="noopener noreferrer">(www.pgr.earth)</a> | Farm Manager</h4>
                                     </header>
-                                    <p class="entry-description">Helped develop and manage a 3-acre permaculture farm and community space near Bangalore, Karnataka, India</p>
+                                    <p class="main-column_entry-description">Helped develop and manage a 3-acre permaculture farm.</p>
                                     <!-- FARM CONTRIBUTIONS: one <li> per bullet. The reusable
-                                         .achievement-list uses --space-paragraph and --space-list. -->
-                                    <ul class="achievement-list">
-                                        <li>Built and maintained rainwater management swales, vermicomposting, and wastewater treatment systems.</li>
-                                        <li> Assisted with installation of a 5 kW solar system with 13 kWh storage.</li>
-                                        <li>Managed a two-acre organic mango orchard, including tree care, disease management, harvesting, and distribution.</li>
+                                         .main-column_achievement-list uses --main-column_description-and-list-margin-top and --main-column_list-item-margin-top. -->
+                                    <h5 class="main-column_period-heading">Part-time / Remote · 2022–Present</h5>
+                                    <ul class="main-column_achievement-list">
+                                        <li>Run the farm website and advise remotely on planting, soils, construction, and solar upgrades; visit during mango season.</li>
+                                    </ul>
+                                    <h5 class="main-column_period-heading">Ramanagara, Karnataka · Full-time / On-site · 2019–2022</h5>
+                                    <ul class="main-column_achievement-list">
+                                        <li>Built and maintained vermicomposting system, rainwater swales, and wastewater treatment systems.</li>
+                                        <li>Designed plumbing and electrical infrastructure; helped install a 5 kW solar system with 13 kWh storage.</li>
                                         <li>Helped design and construct lodging, event spaces, and a café - using stabilized mud blocks and natural pole trusses; coordinated construction.</li>
+                                        <li>Managed a two-acre organic mango orchard, including tree care, disease management, harvesting, and distribution.</li>
                                     </ul>
                                 </article>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">The Becoming Festival (beta version)</span> | Host / Producer</h4>
-                                        <p class="entry-meta">PGR Farm · December 2025</p>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">The Becoming Festival</span> <a class="aux-column_link" href="https://www.thebecomingfestival.com/" target="_blank" rel="noopener noreferrer">(www.thebecomingfestival.com)</a> | Host / Producer</h4>
+                                        <p class="main-column_entry-location-dates">PGR Farm · December 2025</p>
                                     </header>
-                                    <p class="entry-description">Produced and hosted a prototype two-day community jam for 30 attendees, coordinating programming, venue operations, production, hospitality, and live performances.</p>
+                                    <p class="main-column_entry-description">Produced and hosted a prototype two-day community jam for 30 attendees, coordinating programming, venue operations, production, hospitality, and live performances.</p>
                                 </article>
                             </section>
 
                             <!-- DISCIPLINE 3: MUSIC & CREATIVE PRACTICE -->
-                            <section class="experience-discipline" aria-labelledby="music-heading">
-                                <h3 class="discipline-heading" id="music-heading">Music &amp; Creative Practice</h3>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">Elektric Body</span> | Producer / Composer / Live Performer</h4>
-                                        <p class="entry-meta">San Francisco, CA · May – August 2026</p>
+                            <section class="document_section document_section-gap-double" aria-labelledby="main-column_music-heading">
+                                <h3 class="main-column_discipline-heading" id="main-column_music-heading">Music &amp; Creative Practice</h3>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">Elektric Body</span> | Music Producer / Composer / Live Performer</h4>
+                                        <p class="main-column_entry-location-dates">San Francisco, CA · May–August 2026</p>
                                     </header>
-                                    <p class="entry-description">Composed, recorded, produced, and performed a 30-minute musical work for an aerial arts and dance performance at Fort Mason SF, combining live instrumentation and electronic composition. Mixed in 3rd-order Ambisonics and rendered live over an octophonic sound system.</p>
+                                    <p class="main-column_entry-description">Composed, recorded, produced, and performed a 30-minute musical work for an aerial arts and dance performance at Fort Mason SF, combining live instrumentation and electronic composition. Mixed in 3rd-order Ambisonics and rendered live over an octophonic sound system.</p>
                                 </article>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">Travelling Waves</span> | Creator / Developer</h4>
-                                        <p class="entry-meta">Remote · 2016–Present</p>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">Circus &amp; Strings</span> | Drummer</h4>
+                                        <p class="main-column_entry-location-dates">San Francisco, CA · 2024–2026 (annual; latest August 2026)</p>
                                     </header>
-                                    <p class="entry-description">A Sound Healing Synthesizer. Built a 16-voice iPad synthesizer (UIKit interface, C++ audio), released as a TestFlight beta primarily for personal use, with three additional users. Each voice has two oscillators in stereo for beat frequencies, a filter, and two LFO-driven amplitude modulators, all controlled by a master timing and pitch clock with frequency ratio controls.</p>
+                                    <p class="main-column_entry-description">Played covers for about 13 aerialists in a four-piece band on a hybrid <span class="document_no-wrap">acoustic/electronic</span> drum kit, combining stick and finger drumming.</p>
                                 </article>
-                                <article class="experience-entry">
-                                    <header class="entry-heading">
-                                        <h4 class="item-heading experience-title"><span class="company-name">BeMotion</span> | Designer / Developer</h4>
-                                        <p class="entry-meta">Atlanta, GA · 2014</p>
+                                <article class="main-column_experience-entry">
+                                    <header class="main-column_entry-heading">
+                                        <h4 class="main-column_item-heading main-column_experience-title"><svg class="document_ruler document_ruler-tick" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><line x1="0" y1="50%" x2="100%" y2="50%"/></svg><span class="main-column_company-name">Travelling Waves</span> | Creator / Developer</h4>
+                                        <p class="main-column_entry-location-dates">Remote · 2016–Present</p>
                                     </header>
-                                    <p class="entry-description">Created a motion-gesture-controlled audio sampling, looping, and effects processing system for iOS.</p>
+                                    <p class="main-column_entry-description">Built an iPad "sound-healing-synthesizer" app (UIKit, C++ audio). Released as a TestFlight beta for personal use, with three additional users. <br>16-voices, each with two oscillators in stereo for beat frequencies, filters, and LFO-driven amplitude modulators, all controlled by a master timing clock and pitch frequency ratio controls.</p>
                                 </article>
                             </section>
                             </div>
@@ -259,8 +300,7 @@
                     </div>
                 </div>
             </div>
-            <footer class="resume-footer" aria-label="Page 2 of 2">
-                <span>Govinda Ram Pingali</span>
+            <footer class="document_footer" aria-label="Page 2 of 2">
                 <span>2 / 2</span>
             </footer>
         </section>

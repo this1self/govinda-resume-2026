@@ -1,124 +1,173 @@
-/* ========================================================================== 
-   RESUME STYLE GUIDE / EDITING MAP
-   1. Design tokens      — colors, typography, dimensions, and reusable spacing
-   2. Base elements     — predictable defaults, links, text helpers
-   3. Page + header     — Letter sheets, name, subtitle, accent rule
-   4. Layout + sections — columns and shared content patterns
-   5. Contact + entries — icons, experience, achievements, future profile links
-   6. Screen preview    — fixed paper geometry at every viewport width
-   7. Printing          — two Letter sheets with explicit page breaks
+/* RESUME EDITING MAP
+   document_*   : shared colors and typography; page, header, footer, and printing.
+   main-column_*: right column classes, font sizes, dimensions, and spacing.
+   aux-column_* : auxiliary (left sidebar) classes, font sizes, dimensions, and spacing.
+   Custom properties use the same prefixes with a leading --.
+   Controls are grouped below: colors, typography, dimensions, font sizes, spacing, pagination.
+   Within each group, related document and column settings stay together.
+   Screen and print share typography, spacing, fixed sheet geometry, and footers.
+   Font sizes control text; box sizes control icons. Line heights are unitless.
+   Margin is outside a box; padding is inside; gap separates grid/flex children.
+   Left/top names describe this resume's left-to-right, horizontal writing mode.
+   Property order: layout, dimensions, spacing, typography, color, interaction. */
 
-   Property order within each rule:
-   layout → dimensions → spacing → typography → color/surface → interaction.
-   Logical properties (inline/block) keep spacing independent of text direction.
-   ========================================================================== */
-
-/* 1. DESIGN TOKENS ----------------------------------------------------------
-   Start here. Changing --color-accent updates the surname, rule, and icons.
-   Body text is slightly darker than the screenshot for readable printing.
-   The font families are visual approximations, not confirmed identifications. */
+/* 1. DESIGN CONTROLS ------------------------------------------------------- */
 :root {
+    /* COLORS AND SURFACES — shared throughout the document */
+    --document_color-body: #606060;
+    --document_color-heading: #454545;
+    --document_color-company: #333333;
+    --document_color-muted: #757575;
+    --document_color-accent: #8A664A;
+    --document_color-paper: #ffffff;
+    --document_color-canvas: #ececec;
+    --document_color-header-background: transparent;
+    --document_color-column-background: transparent;
+    --document_page-shadow: 0 1px 8px rgb(0 0 0 / 18%);
+    --document_content-outline: 1px dashed transparent;
 
-    /* PAGE SIZE — comment out Letter and uncomment A4 to switch.
-       Also switch the matching size in @page below. Typography and spacing stay unchanged.
-       Pages grow visibly if overfilled; rebalance whole sections before printing.
-       Sidebar width + column gap determine main-column width.
-       If changing paper size, also update the literal size in @page below;
-       CSS custom properties are not reliably supported in @page descriptors. */
-    /* US Letter */
-    --page-width: 8.5in;
-    --page-height: 11in;
+    /* TYPOGRAPHY — shared font families, weights, and letter spacing */
+    /* Update the HTML Google Fonts link when changing families or weights. */
+    --document_font-family-body: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+    --document_font-family-heading: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    --document_font-weight-light: 300;
+    --document_font-weight-regular: 400;
+    --document_font-weight-semibold: 600;
+    --document_letter-spacing-name: 0.05em;
+    --document_letter-spacing-subtitle: 0.1em;
+    --document_letter-spacing-section-heading: 0.1em;
 
-    /* A4
-    --page-width: 210mm;
-    --page-height: 297mm;
-    */
-    /* PAGE MARGIN: one value controls the empty border on ALL FOUR sides.
-       Header and body add no further horizontal page padding. */
-    --page-inset: 0.5in;
+    /* DIMENSIONS — paper, header, and border/outline thickness */
+    /* Match page dimensions to @page below. A4: 210mm wide, 297mm high. */
+    --document_page-width: 8.5in;
+    --document_page-height: 11in;
+    --document_header-minimum-height: 0.4in;
+    --document_header-border-bottom-width: 1px;
+    /* The column divider shares the horizontal header rule's thickness/color. */
+    --document_column-divider-width: var(--document_header-border-bottom-width);
+    --document_link-outline-width: 2px;
 
+    /* FONT SIZES — document text */
+    --document_font-size-body: 10.5pt;
+    --document_font-size-name: 16pt;
+    --document_font-size-subtitle: 10pt;
+    --document_font-size-date: 8pt;
+    --document_font-size-header-contact: 8pt;
+    --document_font-size-footer: 8pt;
 
-    /* Palette: keep color decisions together. */
-    --color-accent: #8A664A; /* #96b8ba; */
-    --color-heading: #454545;
-    --color-company: #333333; /* Company names; roles retain their inherited color. */
-    --color-body: #606060;
-    --color-muted: #757575;
-    --color-paper: #ffffff;
-    --color-canvas: #ececec;
-    /* TEMPORARY HEADER GUIDE: set to transparent to remove the fill. */
-    --color-header-background: transparent;
-    /* SCREEN-ONLY MARGIN GUIDE: use none to hide the content-area outline. */
-    --content-guide: 1px dashed transparent;
-    /* TEMPORARY COLUMN GUIDES: set both to transparent to remove the fills.
-       Backgrounds show the column boundaries without changing widths or spacing. */
-    --color-sidebar-background: transparent;
-    --color-main-background: transparent;
-    --page-shadow: 0 1px 8px rgb(0 0 0 / 18%);
-
-    /* Font families and weights. Update the Google Fonts link if changing fonts. */
-    --font-heading: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-    --font-body: "Open Sans", "Helvetica Neue", Arial, sans-serif;
-    --weight-light: 300;
-    --weight-regular: 400;
-    --weight-semibold: 600;
-
-    /* Type scale: pt keeps screen and paper sizing consistent. */
-    /* NAME SIZE — edit this value to resize "Govinda Ram Pingali".
-       Lower values make the name smaller on desktop and paper.
-       The same size is used on screen and paper. */
-    --size-name: 18pt;
-    --size-subtitle: 10pt;
-    --size-date: 8pt;
-    --size-section: 11pt;
-    --size-discipline: 10pt;
-    --size-body: 10.5pt;
-    --size-sidebar: 10pt;
-    --line-height-body: 1.45;
-    --line-height-sidebar: 1.4;
-    --line-height-heading: 1.2;
+    /* FONT SIZES — Main Column (right) */
+    --main-column_font-size-body: 11pt;
+    --main-column_font-size-section-heading: 11pt;
+    --main-column_font-size-discipline-heading: 10pt;
+    --main-column_font-size-entry-location-dates: 9.5pt;
     
-    /* NAME LETTER SPACING: controls how tightly the full name fits on one line
-       within its equal-width header column. Recheck fit if increasing it. */
-    --tracking-name: 0.05em;
+    /* FONT SIZES — Auxiliary Column text */
+    --aux-column_font-size-body: 10.5pt;
+    --aux-column_font-size-section-heading: 11pt;
+    /* ICON DIMENSIONS — square boxes; SVG stroke width is unitless */
+    --aux-column_contact-icon-box-size: 12pt;
+    --aux-column_contact-icon-cutout-stroke-width: 1.25;
+    --aux-column_profile-logo-column-width: 18pt;
+    --aux-column_profile-logo-box-size: 13pt;
+    --aux-column_soundcloud-logo-box-size: 18pt;
+    --aux-column_link-outline-width: 2px;
+
+    /* DIMENSIONS — Auxiliary Column (left sidebar) */
+    /* Aux width and document column gap determine the remaining main width. */
+    --aux-column_width: 1.9in;
+
+    /* SPACING — document page and columns */
+    /* Page padding; also positions the footer inside the printed sheet. */
+    /* Paper edge to resume content: page margins. */
+    --document_page-content-inset: 0.5in;
     
-    /* SUBTITLE LETTER SPACING: tighter spacing fits all three disciplines
-       on one line in the right header column. Recheck fit when changing font size. */
-    --tracking-subtitle: 0.1em;
-    --tracking-section: 0.1em;
+    /* Between the left sidebar and Work Experience column. */
+    --document_columns-gap: 0.2in;
+    
+    /* Shared gap across BOTH columns and ALL pages:
+       header to columns; Contact to Skills; Education to Courses to Links;
+       section/discipline headings to content; between work entries,
+       skill categories, degrees, courses, and discipline sections. */
+    --document_section-gap: 10pt;
+    
+    --document_screen-page-margin-vertical: 12px;
+
+    --document_content-outline-offset: -1px;
+
+    /* SPACING — document header, footer, and links */
+    /* Between your name and the subtitle/date header block. */
+    --document_header-column-gap: 18pt;
+    /* Between the header subtitle and its date. */
+    --document_header-details-gap: 0pt;
+    /* Zero keeps the subtitle vertically centered with the name. */
+    --document_header-details-offset-top: 0pt;
+    --document_header-padding-vertical: 4pt;
+    --document_footer-items-gap: 12pt;
+    /* Space inside the footer above the page number; shared by screen and print. */
+    --document_footer-padding-top: 4pt;
+    --document_link-underline-offset: 0.2em;
+    --document_link-outline-offset: 4px;
+
+    /* SPACING — document text rhythm */
+    --document_line-height-body: 1.2;
+    --document_line-height-heading: 1.2;
+
+    /* SPACING — Main Column text rhythm */
+    /* Spacing between wrapped description lines; shared by screen and print. */
+    --main-column_line-height-body: 1.4;
+    --main-column_line-height-heading: 1.4;
+
+    /* SPACING — Main Column sections and entries */
+    /* Between Apple Inc. | Siri Audio Software Engineer and Cupertino, CA / dates. */
+    --main-column_entry-location-dates-margin-top: 2pt;
+    /* Screen and print: dates to description/first bullet; also description to following list. */
+    --main-column_description-and-list-margin-top: 3pt;
+    
+
+    /* Shared bullet-text indentation in the main and auxiliary columns. */
+    --list-padding-left: 10pt;
 
     
-    /* Header height is measured INSIDE the page margins. */
-    --header-min-height: 0.5in;
-    /* HEADER SPACING: gap between the equal columns, then subtitle/date gap.
-       Header height remains a minimum; wrapped text and padding can exceed it. */
-    --header-column-gap: 18pt;
-    --header-details-gap: 0pt;
-    /* RIGHT HEADER VERTICAL OFFSET: align the subtitle's top with the name's top.
-       Both columns are centered initially, so offset by half their height difference.
-       This preserves the name's vertical centering. Use a length to fine-tune. */
-    /* --header-details-offset: calc(((var(--size-subtitle) + var(--size-date)) * var(--line-height-body) + var(--header-details-gap) - var(--size-name) * var(--line-height-heading)) / 2); */
-    --header-details-offset: 4pt;
-    --body-inset-top: 0.2in; /* Internal gap from the divider to the two columns. */
-    --sidebar-width: 1.92in;
-    --column-gap: 0.3in;
-    --screen-page-margin: 12px;
-    --accent-rule-width: 1px;
+    /* SPACING — Aux Column text rhythm and sections */
+    --aux-column_line-height-body: 1.4;
+    --aux-column_line-height-heading: 1.2;
+    /* Between Master of Science in Music Technology and Georgia Institute of Technology. */
+    --aux-column_detail-heading-content-margin-top: 3pt;
+    /* Between rows in any auxiliary grid list; profile links use their own override. */
+    --aux-column_list-items-gap: 2pt;
 
-    /* Shared rhythm: section > entry > paragraph/list spacing. */
-    --space-section: 16pt;
-    --space-section-heading: 9pt;
-    --space-discipline: 20pt;
-    /* Shared gap: discipline heading → first entry, and between entries. */
-    --space-entry: 12pt;
-    --space-detail: 10pt;
-    --space-paragraph: 4pt;
-    --space-list: 0pt; /* Extra gap between bullets; line spacing stays unchanged. */
-    --space-contact: 4pt; /* Gap between phone and email rows. */
-    --size-contact-icon: 12pt;
+    /* SPACING — Aux Column contact rows */
+    /* Between a contact icon and its phone/email/location text. */
+    --aux-column_contact-icon-text-gap: 4pt;
+    --aux-column_location-icon-margin-top: 1pt;
+
+    /* SPACING — Aux Column profile links */
+    /* Between the LinkedIn, GitHub, and SoundCloud link rows. */
+    --aux-column_profile-links-gap: 8pt;
+    /* Between each profile logo and its URL. */
+    --aux-column_profile-logo-text-gap: 4pt;
+    /* Moves LinkedIn/GitHub logos down relative to the first URL line. */
+    --aux-column_profile-logo-margin-top: 3pt;
+    /* SoundCloud-specific downward logo offset. */
+    --aux-column_soundcloud-logo-margin-top: 1pt;
+    --aux-column_link-underline-offset: 0.2em;
+    --aux-column_link-outline-offset: 4px;
+
+    /* RULER DIVIDER — independent HTML switch: data-ruler-divider="true".
+       Shared stroke thickness; vertical dash size/gap; horizontal tick length. */
+    --ruler-divider-color: #8A664A;
+    --ruler-divider-thickness: 1px;
+    --ruler-divider-dash-length: 6pt;
+    --ruler-divider-dash-gap: 4pt;
+    --ruler-divider-main-tick-length: 400pt;
+    --ruler-divider-aux-tick-length: 150pt;
+
+    /* PAGINATION — minimum paragraph/list-item lines on each side of a break */
+    --document_minimum-lines-before-page-break: 3;
+    --document_minimum-lines-after-page-break: 3;
 }
 
-/* 2. BASE ELEMENTS --------------------------------------------------------- */
+/* 2. DOCUMENT BASE, PAGE, HEADER, FOOTER, AND COLUMN LAYOUT ------------------ */
 *,
 *::before,
 *::after {
@@ -131,12 +180,14 @@ html {
 
 body {
     margin: 0;
-    font-family: var(--font-body);
-    font-size: var(--size-body);
-    font-weight: var(--weight-regular);
-    line-height: var(--line-height-body);
-    color: var(--color-body);
-    background: var(--color-canvas);
+    /* Keep letters separate for reliable PDF text extraction. */
+    font-variant-ligatures: none;
+    font-family: var(--document_font-family-body);
+    font-size: var(--document_font-size-body);
+    font-weight: var(--document_font-weight-regular);
+    line-height: var(--document_line-height-body);
+    color: var(--document_color-body);
+    background: var(--document_color-canvas);
 }
 
 h1,
@@ -148,410 +199,598 @@ ul {
     margin: 0;
 }
 
-/* Text helpers can be reused anywhere without introducing another color. */
-.accent-text {
-    color: var(--color-accent);
+.document_accent-text {
+    color: var(--document_color-accent);
 }
 
-.muted-text,
-.entry-meta {
-    color: var(--color-muted);
+/* Keep short technical tokens and profile handles intact across lines. */
+.document_no-wrap {
+    white-space: nowrap;
 }
 
-.resume-link {
+.document_link {
     overflow-wrap: anywhere;
     color: inherit;
     text-decoration: none;
-    text-underline-offset: 0.2em;
+    text-underline-offset: var(--document_link-underline-offset);
 }
 
-.resume-link:hover {
+.document_link:hover {
     text-decoration: underline;
 }
 
-.resume-link:focus-visible {
-    outline: 2px solid var(--color-heading);
-    outline-offset: 4px;
+.document_link:focus-visible {
+    outline: var(--document_link-outline-width) solid var(--document_color-heading);
+    outline-offset: var(--document_link-outline-offset);
 }
 
-/* 3. PAGE + HEADER ---------------------------------------------------------
-   Each sheet owns its margins and footer. Minimum height keeps short pages
-   paper-sized; content stays visible if later edits overfill a sheet.
-   Keep each page within the selected height for a two-page PDF. */
-.resume-page {
+/* Fixed sheets preview the printed layout on screen; overflow remains visible. */
+.document_page {
+    position: relative;
+    display: block;
+    inline-size: var(--document_page-width);
+    block-size: var(--document_page-height);
+    min-block-size: 0;
+    margin: var(--document_screen-page-margin-vertical) auto;
+    padding: var(--document_page-content-inset);
+    background: var(--document_color-paper);
+    box-shadow: var(--document_page-shadow);
+}
+
+.document_content {
     display: flex;
     flex-direction: column;
-    inline-size: var(--page-width);
-    min-block-size: var(--page-height);
-    margin: var(--screen-page-margin) auto;
-    padding: var(--page-inset);
-    background: var(--color-paper);
-    box-shadow: var(--page-shadow);
-}
-
-.resume-content {
     inline-size: 100%;
+    /* Reserve the footer's padding and single line of page numbers in both media. */
+    block-size: calc(100% - var(--document_footer-padding-top) - var(--document_font-size-footer) * var(--document_line-height-body));
+    outline: var(--document_content-outline);
+    outline-offset: var(--document_content-outline-offset);
 }
 
-.resume-footer {
+.document_footer {
+    position: absolute;
     display: flex;
-    justify-content: space-between;
-    gap: 12pt;
-    margin-block-start: auto;
-    padding-block-start: 12pt;
-    font-size: 8pt;
-    color: var(--color-muted);
+    justify-content: flex-end;
+    gap: var(--document_footer-items-gap);
+    inset-inline: var(--document_page-content-inset);
+    inset-block-end: var(--document_page-content-inset);
+    padding-block-start: var(--document_footer-padding-top);
+    font-size: var(--document_font-size-footer);
+    color: var(--document_color-muted);
 }
 
-.resume-header-continuation .resume-name {
-    font-size: 12pt;
-}
-
-.continuation-contact {
+.document_header-contact {
     justify-self: end;
-    font-size: 9pt;
+    font-size: var(--document_font-size-header-contact);
 }
 
-/* HEADER COLUMNS: repeat(2, ...) gives the name and details equal widths.
-   Font sizes remain controlled by --size-name / --size-subtitle / --size-date.
-   Name and subtitle each stay on one line; the details offset aligns their tops. */
-.resume-header {
+.document_header {
     display: grid;
+    flex-shrink: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
-    gap: var(--header-column-gap);
-    min-block-size: var(--header-min-height);
-    /* Equal top/bottom padding centers the name within the header.
-       Total padding stays 8pt, preserving the header height and document fit. */
-    padding: 4pt 0;
-    /* The header already spans the content width, so its border aligns naturally. */
-    border-block-end: var(--accent-rule-width) solid var(--color-accent);
+    gap: var(--document_header-column-gap);
+    min-block-size: var(--document_header-minimum-height);
+    margin-block-end: var(--document_section-gap);
+    padding: var(--document_header-padding-vertical) 0;
+    border-block-end: var(--document_header-border-bottom-width) solid var(--document_color-accent);
     text-align: start;
-    background-color: var(--color-header-background);
+    background-color: var(--document_color-header-background);
 }
 
-/* RIGHT COLUMN: subtitle above date; align both with the right content edge.
-   The relative offset moves only this block, preserving the name/header position. */
-.resume-header-details {
+/* Continuation pages repeat the header rule above their columns. */
+.document_page + .document_page .document_content::before {
+    content: "";
+    flex-shrink: 0;
+    border-block-start: var(--document_header-border-bottom-width) solid var(--document_color-accent);
+    margin-block-end: var(--document_section-gap);
+}
+
+.document_header-details {
     position: relative;
-    inset-block-start: var(--header-details-offset);
+    inset-block-start: var(--document_header-details-offset-top);
     display: grid;
-    gap: var(--header-details-gap);
+    gap: var(--document_header-details-gap);
     min-inline-size: 0;
     text-align: end;
 }
 
-.resume-name {
+.document_name {
     max-inline-size: 100%;
-    font-family: var(--font-heading);
-    font-size: var(--size-name);
-    font-weight: var(--weight-light);
-    line-height: var(--line-height-heading);
-    letter-spacing: var(--tracking-name);
-    /* Keep the complete name together; size and letter spacing control fit. */
+    font-family: var(--document_font-family-heading);
+    font-size: var(--document_font-size-name);
+    font-weight: var(--document_font-weight-light);
+    line-height: var(--document_line-height-heading);
+    letter-spacing: var(--document_letter-spacing-name);
     white-space: nowrap;
     text-transform: uppercase;
-    color: var(--color-heading);
+    color: var(--document_color-heading);
 }
 
-.resume-subtitle {
-    font-size: var(--size-subtitle);
-    letter-spacing: var(--tracking-subtitle);
-    /* Keep the subtitle intact. If editing its text or size, check column fit. */
+.document_subtitle {
+    font-size: var(--document_font-size-subtitle);
+    letter-spacing: var(--document_letter-spacing-subtitle);
     white-space: nowrap;
     text-transform: uppercase;
-    color: var(--color-heading);
+    color: var(--document_color-heading);
 }
 
-.resume-date {
-    font-size: var(--size-date);
-    color: var(--color-muted);
+.document_date {
+    font-size: var(--document_font-size-date);
+    color: var(--document_color-muted);
 }
 
-/* 4. LAYOUT + REUSABLE SECTIONS --------------------------------------------
-   minmax(0, 1fr) allows long text to wrap inside the main column.
-   Both columns share .resume-section, .section-heading, and .item-heading. */
-.resume-body {
+/* Fixed paper geometry also applies on narrow screens; scroll or zoom to inspect. */
+.document_columns {
+    position: relative;
     display: grid;
-    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-    gap: var(--column-gap);
-    padding-block-start: var(--body-inset-top);
+    flex: 1 0 auto;
+    grid-template-columns: var(--aux-column_width) minmax(0, 1fr);
+    gap: var(--document_columns-gap);
 }
 
-.resume-sidebar,
-.resume-main {
+/* One spacing rule for sections and repeated groups in either column. */
+.document_section + .document_section,
+.main-column_experience-entry + .main-column_experience-entry,
+.aux-column_detail-group + .aux-column_detail-group {
+    margin-block-start: var(--document_section-gap);
+}
+
+/* Reusable modifier: add a second shared gap before a section. */
+.document_section.document_section-gap-double {
+    margin-block-start: calc(2 * var(--document_section-gap));
+}
+
+/* Section and discipline headings use that same gap before their content. */
+.main-column_section-heading,
+.main-column_discipline-heading,
+.aux-column_section-heading {
+    margin-block-end: var(--document_section-gap);
+}
+
+/* Decorative only: centered in the gap, from section tops to the footer box.
+   Absolute positioning keeps the rule out of the grid and text flow. */
+.document_columns::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-start: calc(var(--aux-column_width) + var(--document_columns-gap) / 2);
+    inline-size: var(--document_column-divider-width);
+    background-color: transparent;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+/* 3. AUX COLUMN — LEFT ----------------------------------------------------- */
+.aux-column {
     min-inline-size: 0;
     overflow-wrap: break-word;
+    font-family: var(--document_font-family-body);
+    font-size: var(--aux-column_font-size-body);
+    font-weight: var(--document_font-weight-regular);
+    line-height: var(--aux-column_line-height-body);
+    color: var(--document_color-body);
+    background-color: var(--document_color-column-background);
 }
 
-/* Sidebar spacing applies to both pages. Edit this block to adjust
-   section, heading, detail, and bullet gaps independently of experience. */
-.resume-sidebar {
-    --space-section: 18pt;
-    --space-section-heading: 8pt;
-    --space-detail: 10pt;
-    --space-list: 2pt;
-
-    font-size: var(--size-sidebar);
-    line-height: var(--line-height-sidebar);
-    background-color: var(--color-sidebar-background);
-}
-
-.resume-main {
-    background-color: var(--color-main-background);
-}
-
-/* Page two has more entries; keep the expanded project descriptions on one sheet. */
-.resume-page + .resume-page .resume-main {
-    --space-entry: 8pt;
-    --space-discipline: 14pt;
-    line-height: 1.4;
-}
-
-.resume-section + .resume-section {
-    margin-block-start: var(--space-section);
-}
-
-.section-heading {
-    margin-block-end: var(--space-section-heading);
-    font-family: var(--font-heading);
-    font-size: var(--size-section);
-    font-weight: var(--weight-regular);
-    line-height: var(--line-height-heading);
-    letter-spacing: var(--tracking-section);
+.aux-column_section-heading {
+    font-family: var(--document_font-family-heading);
+    font-size: var(--aux-column_font-size-section-heading);
+    font-weight: var(--document_font-weight-regular);
+    line-height: var(--aux-column_line-height-heading);
+    letter-spacing: var(--document_letter-spacing-section-heading);
     text-transform: uppercase;
-    color: var(--color-heading);
+    color: var(--document_color-heading);
 }
 
-.item-heading {
+.aux-column_item-heading {
     font-size: inherit;
-    font-weight: var(--weight-semibold);
-    line-height: var(--line-height-heading);
+    font-weight: var(--document_font-weight-semibold);
+    line-height: var(--aux-column_line-height-heading);
 }
 
-/* Sibling selectors add space between entries without trailing empty space. */
-.detail-group + .detail-group {
-    margin-block-start: var(--space-detail);
+.aux-column_emphasized-text {
+    color: var(--document_color-company);
 }
 
-.detail-group > .item-heading + * {
-    margin-block-start: 2pt;
+/* Shared emphasis for education institutions and course providers. */
+.aux-column_institution-name {
+    color: var(--document_color-company);
 }
 
-.plain-list,
-.bulleted-list {
+/* Skills subsection titles share the institution-name emphasis. */
+.document_section[aria-labelledby="aux-column_skills-heading"] .aux-column_item-heading {
+    color: var(--document_color-company);
+}
+
+.aux-column_muted-text {
+    font-size: var(--main-column_font-size-entry-location-dates);
+    font-style: italic;
+    color: var(--document_color-muted);
+}
+
+.aux-column_detail-group > .aux-column_item-heading + * {
+    margin-block-start: var(--aux-column_detail-heading-content-margin-top);
+}
+
+.aux-column_plain-list,
+.aux-column_bulleted-list {
     display: grid;
-    gap: var(--space-list);
+    gap: var(--aux-column_list-items-gap);
     padding: 0;
 }
 
-.plain-list {
+.aux-column_plain-list {
     list-style: none;
 }
 
-/* Reusable compact bullets; row spacing follows the same --space-list token. */
-.bulleted-list {
-    padding-inline-start: 14pt;
+.aux-column_bulleted-list {
+    padding-inline-start: var(--list-padding-left);
     list-style: disc outside;
 }
 
-/* 5. CONTACT + EXPERIENCE + FUTURE LINKS ----------------------------------- */
-.contact-list {
+.aux-column_link {
+    overflow-wrap: anywhere;
+    font-family: var(--document_font-family-body);
+    font-size: var(--aux-column_font-size-body);
+    font-weight: var(--document_font-weight-regular);
+    color: var(--document_color-body);
+    text-decoration: none;
+    text-underline-offset: var(--aux-column_link-underline-offset);
+}
+
+.aux-column_link:hover {
+    text-decoration: underline;
+}
+
+.aux-column_link:focus-visible {
+    outline: var(--aux-column_link-outline-width) solid var(--document_color-heading);
+    outline-offset: var(--aux-column_link-outline-offset);
+}
+
+.aux-column_contact-list {
     display: grid;
-    gap: var(--space-contact);
+    gap: calc(2 * var(--aux-column_list-items-gap));
     font-style: normal;
 }
 
-.contact-item {
+.aux-column_contact-item {
     display: grid;
-    grid-template-columns: var(--size-contact-icon) minmax(0, 1fr);
+    grid-template-columns: var(--aux-column_contact-icon-box-size) minmax(0, 1fr);
     align-items: center;
-    gap: 4pt; /* Horizontal space between the icon and contact text. */
+    gap: var(--aux-column_contact-icon-text-gap);
 }
 
-.contact-icon {
+.aux-column_contact-icon {
     display: block;
-    inline-size: var(--size-contact-icon);
-    block-size: var(--size-contact-icon);
-    color: var(--color-accent);
+    inline-size: var(--aux-column_contact-icon-box-size);
+    block-size: var(--aux-column_contact-icon-box-size);
+    color: var(--document_color-accent);
 }
 
-.contact-locations {
+.aux-column_contact-locations {
     align-items: start;
 }
 
-.contact-locations .contact-icon {
-    margin-block-start: 1pt;
+.aux-column_contact-locations .aux-column_contact-icon {
+    margin-block-start: var(--aux-column_location-icon-margin-top);
 }
 
-/* Envelope seams follow the paper color, even if you change the theme. */
-.icon-paper-line {
+.aux-column_contact-icon-cutout {
     fill: none;
-    stroke: var(--color-paper);
-    stroke-width: 1.25;
+    stroke: var(--document_color-paper);
+    stroke-width: var(--aux-column_contact-icon-cutout-stroke-width);
 }
 
-/* DISCIPLINES: one .experience-discipline section per area of practice.
-   --space-discipline separates groups; --space-entry controls the gap after
-   each discipline heading and between its entries.
-   Keep headings uppercase, while role titles retain their original casing. */
-.experience-discipline + .experience-discipline {
-    margin-block-start: var(--space-discipline);
-}
-
-.discipline-heading {
-    margin-block-end: var(--space-entry);
-    font-family: var(--font-heading);
-    font-size: var(--size-discipline);
-    font-weight: var(--weight-regular);
-    line-height: var(--line-height-heading);
-    letter-spacing: var(--tracking-section);
-    text-transform: uppercase;
-    color: var(--color-heading);
-}
-
-/* Reuse one .experience-entry article per job. Paragraphs and achievements
-   have separate spacing controls so dense roles remain easy to tune. */
-.experience-entry + .experience-entry {
-    margin-block-start: var(--space-entry);
-}
-
-/* ENTRY HEADING: title first, then location/date on their own line.
-   This keeps date ranges together and makes roles easier to scan. */
-.entry-heading > .experience-title,
-.entry-heading > .entry-meta {
-    display: block;
-}
-
-.experience-title {
-    text-transform: none;
-}
-
-/* Wrap company, organization, or project names in <span class="company-name">.
-   Color changes independently; the title's existing font and weight are inherited. */
-.company-name {
-    color: var(--color-company);
-}
-
-.entry-meta {
-    margin-block-start: 2pt;
-    font-size: 9.5pt;
-    font-style: italic;
-}
-
-/* Match inline emphasis (e.g. Orgona) to the loaded semibold font weight. */
-.entry-description strong {
-    font-weight: var(--weight-semibold);
-}
-
-.entry-description,
-.achievement-list {
-    margin-block-start: var(--space-paragraph);
-}
-
-.achievement-list {
-    padding-inline-start: 24pt;
-}
-
-.achievement-list > li + li {
-    margin-block-start: var(--space-list);
-}
-
-/* Separate long profile URLs without inserting blank HTML list rows. */
-.profile-links {
-    --space-list: 8pt;
+.aux-column_profile-links {
+    --aux-column_list-items-gap: var(--aux-column_profile-links-gap);
     padding-inline-start: 0;
     list-style: none;
 }
 
-/* Local PNG logos stay available offline and print beside their profile URLs. */
-.profile-link {
+.aux-column_profile-link {
     display: grid;
-    grid-template-columns: 18pt minmax(0, 1fr);
+    grid-template-columns: var(--aux-column_profile-logo-column-width) minmax(0, 1fr);
     align-items: start;
-    column-gap: 4pt;
+    column-gap: var(--aux-column_profile-logo-text-gap);
 }
 
-.profile-logo {
+.aux-column_profile-logo {
     display: block;
-    inline-size: 13pt;
-    block-size: 13pt;
-    margin-block-start: 3pt;
+    inline-size: var(--aux-column_profile-logo-box-size);
+    block-size: var(--aux-column_profile-logo-box-size);
+    margin-block-start: var(--aux-column_profile-logo-margin-top);
     object-fit: contain;
     justify-self: center;
 }
 
-.profile-link span {
+.aux-column_profile-link span {
     overflow-wrap: normal;
+    hyphens: none;
 }
 
-.profile-logo-soundcloud {
-    inline-size: 18pt;
-    block-size: 18pt;
-    margin-block-start: 1pt;
+.aux-column_profile-logo-soundcloud {
+    inline-size: var(--aux-column_soundcloud-logo-box-size);
+    block-size: var(--aux-column_soundcloud-logo-box-size);
+    margin-block-start: var(--aux-column_soundcloud-logo-margin-top);
 }
 
-/* Keep a role or sidebar detail together if later edits trigger pagination. */
-.experience-entry,
-.detail-group,
-.contact-list,
-.profile-links {
+/* 4. MAIN COLUMN — RIGHT --------------------------------------------------- */
+.main-column {
+    min-inline-size: 0;
+    overflow-wrap: break-word;
+    font-family: var(--document_font-family-body);
+    font-size: var(--main-column_font-size-body);
+    font-weight: var(--document_font-weight-regular);
+    line-height: var(--main-column_line-height-body);
+    color: var(--document_color-body);
+    background-color: var(--document_color-column-background);
+}
+
+.main-column_section-heading {
+    font-family: var(--document_font-family-heading);
+    font-size: var(--main-column_font-size-section-heading);
+    font-weight: var(--document_font-weight-regular);
+    line-height: var(--main-column_line-height-heading);
+    letter-spacing: var(--document_letter-spacing-section-heading);
+    text-transform: uppercase;
+    color: var(--document_color-heading);
+}
+
+.main-column_item-heading {
+    font-size: inherit;
+    font-weight: var(--document_font-weight-semibold);
+    line-height: var(--main-column_line-height-heading);
+}
+
+.main-column_discipline-heading {
+    font-family: var(--document_font-family-heading);
+    font-size: var(--main-column_font-size-discipline-heading);
+    font-weight: var(--document_font-weight-regular);
+    line-height: var(--main-column_line-height-heading);
+    letter-spacing: var(--document_letter-spacing-section-heading);
+    text-transform: uppercase;
+    color: var(--document_color-heading);
+}
+
+.main-column_entry-heading > .main-column_experience-title,
+.main-column_entry-heading > .main-column_entry-location-dates {
+    display: block;
+}
+
+.main-column_experience-title {
+    text-transform: none;
+}
+
+.main-column_company-name {
+    color: var(--document_color-company);
+}
+
+.main-column_entry-location-dates {
+    margin-block-start: var(--main-column_entry-location-dates-margin-top);
+    font-size: var(--main-column_font-size-entry-location-dates);
+    font-style: italic;
+    color: var(--document_color-muted);
+}
+
+/* Dated subheadings separate current duties from earlier work in one role.
+   Reuses the existing text-size and paragraph-spacing controls. */
+.main-column_period-heading {
+    margin: var(--main-column_description-and-list-margin-top) 0 0;
+    font-size: var(--main-column_font-size-entry-location-dates);
+    font-weight: var(--document_font-weight-regular);
+    font-style: italic;
+    line-height: var(--main-column_line-height-heading);
+    color: var(--document_color-muted);
+}
+
+.main-column_entry-description strong {
+    font-weight: var(--document_font-weight-semibold);
+}
+
+.main-column_entry-description,
+.main-column_achievement-list {
+    margin-block-start: var(--main-column_description-and-list-margin-top);
+}
+
+.main-column_achievement-list {
+    padding-inline-start: var(--list-padding-left);
+}
+
+/* 5. DOCUMENT PAGINATION, SCREEN, AND PRINT -------------------------------- */
+.main-column_experience-entry,
+.aux-column_detail-group,
+.aux-column_contact-list,
+.aux-column_profile-links {
     break-inside: avoid;
 }
 
-.section-heading,
-.discipline-heading,
-.item-heading,
-.entry-heading {
+.main-column_section-heading,
+.main-column_discipline-heading,
+.main-column_item-heading,
+.main-column_entry-heading,
+.main-column_period-heading,
+.aux-column_section-heading,
+.aux-column_item-heading {
     break-after: avoid;
 }
 
 p,
 li {
-    orphans: 3;
-    widows: 3;
+    orphans: var(--document_minimum-lines-before-page-break);
+    widows: var(--document_minimum-lines-after-page-break);
 }
 
-/* 6. SCREEN PREVIEW --------------------------------------------------------
-   Keep paper dimensions, columns, and font sizes fixed on narrow screens too.
-   Use browser zoom or horizontal scrolling to inspect the sheet. Reflow would
-   change which content fits and make this layout proof differ from print. */
-@media screen {
-    .resume-content {
-        /* Inset outline marks the shared content boundary without consuming space. */
-        outline: var(--content-guide);
-        outline-offset: -1px;
-    }
-}
-
-/* 7. PRINT ----------------------------------------------------------------
-   Browser print dialog: match the CSS paper size, scale 100%, headers/footers off.
-   For exact font matching, wait for Google Fonts to finish loading first.
-   @page has zero margins because .resume-page already supplies all four margins.
-   The content guide is screen-only. Each .resume-page starts a separate sheet.
-   Leave browser headers and footers off; the document supplies page numbers. */
+/* Print at 100% scale, matching the paper size, with browser headers/footers off.
+   @page dimensions must be literal values; custom properties are unreliable here.
+   Each document_page supplies its margins and starts a separate printed sheet. */
 @page {
-    /* Keep this selection matched to the dimensions in :root above. */
-    size: 8.5in 11in; /* US Letter */
-    /* size: 210mm 297mm; */ /* A4 */
+    size: 8.5in 11in; /* US Letter; A4: 210mm 297mm. */
     margin: 0;
 }
 
+/* Only paper output mechanics differ: pagination, canvas, and screen shadows.
+   All sheet dimensions, typography, spacing, and footer placement are shared above. */
 @media print {
     body {
-        background: var(--color-paper);
+        background: var(--document_color-paper);
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
-    .resume-page + .resume-page {
+    .document_page + .document_page {
         break-before: page;
     }
 
-    .resume-page {
-        inline-size: var(--page-width);
+    .document_page {
         margin: 0;
         box-shadow: none;
+        break-inside: avoid;
     }
 
+    .document_content {
+        break-inside: avoid;
+    }
+}
+
+/* 6. DEBUG LAYOUT ---------------------------------------------------------- */
+/* Switch: data-debug-layout="true" / "false" on <html> in the HTML file.
+   Works on screen and in print preview. Disable before the final PDF export.
+   Opaque pastel fills reveal nested boxes; exposed parent colors show spacing.
+   Page: gray; header/footer: purple; all container gaps: blue; entries: yellow.
+   Outlines draw boundary lines without changing widths, spacing, or pagination. */
+html[data-debug-layout="true"] .document_page {
+    background-color: #e8e8ed;
+    outline: 1px solid #676779;
+    outline-offset: -1px;
+}
+
+/* All layout containers share one background, so exposed gaps share one color. */
+html[data-debug-layout="true"] :is(
+    .document_content,
+    .document_columns,
+    .aux-column,
+    .main-column,
+    .document_section
+) {
+    background-color: #dce5f0;
+    outline: 1px dashed #57728f;
+    outline-offset: -1px;
+}
+
+html[data-debug-layout="true"] :is(.document_header, .document_footer) {
+    background-color: #e9ddf5;
+    outline: 1px dashed #8865a6;
+    outline-offset: -1px;
+}
+
+html[data-debug-layout="true"] :is(
+    .main-column_experience-entry,
+    .aux-column_detail-group,
+    .aux-column_contact-list,
+    .aux-column_profile-links
+) {
+    background-color: #fff0cb;
+    outline: 1px dashed #ac8b43;
+    outline-offset: -1px;
+}
+
+html[data-debug-layout="true"] :is(
+    .main-column_section-heading,
+    .main-column_discipline-heading,
+    .main-column_entry-heading,
+    .main-column_period-heading,
+    .aux-column_section-heading,
+    .aux-column_item-heading
+) {
+    background-color: #f5dfe2;
+    outline: 1px dotted #ac707a;
+    outline-offset: -1px;
+}
+
+/* 7. RULER DIVIDER --------------------------------------------------------- */
+/* Actual SVG strokes avoid Firefox PDF artifacts from repeating gradients.
+   Parameters live in section 1. SVGs are decorative and never affect layout.
+   New entry: put document_ruler-tick inside its heading.
+   Grouped section: document_ruler-group on section, group-start SVG inside its
+   heading, group-end SVG at the end of the section. All coordinates track the
+   shared section gap; no content-specific pixel offsets are needed. */
+.document_ruler {
+    display: none;
+}
+
+html[data-ruler-divider="true"] .main-column {
+    --ruler-divider-tick-length: var(--ruler-divider-main-tick-length);
+}
+
+html[data-ruler-divider="true"] .aux-column {
+    --ruler-divider-tick-length: var(--ruler-divider-aux-tick-length);
+}
+
+html[data-ruler-divider="true"] .document_ruler {
+    display: block;
+    position: absolute;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.document_ruler line {
+    fill: none;
+    stroke: var(--ruler-divider-color);
+    stroke-width: var(--ruler-divider-thickness);
+    stroke-dasharray: var(--ruler-divider-dash-length) var(--ruler-divider-dash-gap);
+    stroke-linecap: butt;
+}
+
+/* Vertical spine: exactly centered in the inter-column gap. */
+html[data-ruler-divider="true"] .document_columns::after {
+    content: none;
+}
+
+.document_ruler-vertical {
+    inset-block: 0;
+    inset-inline-start: calc(var(--aux-column_width) + var(--document_columns-gap) / 2);
+    inline-size: var(--ruler-divider-thickness);
+    block-size: 100%;
+    transform: translateX(-50%);
+}
+
+/* Individual entries: midpoint of the gap preceding each heading. */
+html[data-ruler-divider="true"] :is(
+    [aria-labelledby="aux-column_skills-heading"] .aux-column_item-heading,
+    .main-column_experience-title,
+    .document_ruler-group,
+    .document_ruler-group > .aux-column_section-heading
+) {
+    position: relative;
+}
+
+.document_ruler-tick,
+.document_ruler-group-start,
+.document_ruler-group-end {
+    inline-size: var(--ruler-divider-tick-length);
+    block-size: var(--ruler-divider-thickness);
+}
+
+.document_ruler-tick {
+    inset-block-start: calc(-0.5 * var(--document_section-gap) - var(--ruler-divider-thickness) / 2);
+}
+
+.aux-column .document_ruler:not(.document_ruler-vertical) {
+    inset-inline-end: calc(-1 * var(--document_columns-gap) / 2);
+    /* Start each dash pattern at the spine, extending outward to the left. */
+    transform: scaleX(-1);
+}
+
+.main-column .document_ruler-tick {
+    inset-inline-start: calc(-1 * var(--document_columns-gap) / 2);
+}
+
+/* Groups: start below the section heading; end after the final content.
+   Outer section spacing, including doubled gaps, stays independent. */
+.document_ruler-group-start,
+.document_ruler-group-end {
+    inset-block-end: calc(-0.5 * var(--document_section-gap) - var(--ruler-divider-thickness) / 2);
 }
